@@ -1,24 +1,23 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "hello-world-do-template",
-	"main": "src/index.ts",
-	"compatibility_date": "2025-10-08",
-	"upload_source_maps": true,
-	"migrations": [
-		{
-			"new_sqlite_classes": ["MyDurableObject"],
-			"tag": "v1"
-		}
-	],
-	"durable_objects": {
-		"bindings": [
-			{
-				"class_name": "MyDurableObject",
-				"name": "MY_DURABLE_OBJECT"
-			}
-		]
-	},
-	"observability": {
-		"enabled": true
-	}
+  "name": "hello-world-do-template",          // keep or rename; just match your Worker name in Cloudflare
+  "main": "src/index.ts",
+  "compatibility_date": "2024-01-01",
+
+  // Durable Object binding for risk / P&L state
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "TRADING_BOT_STATE",
+        "class_name": "TradingBotState"
+      }
+    ]
+  },
+
+  // Migration that actually creates the Durable Object namespace
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["TradingBotState"]
+    }
+  ]
 }
